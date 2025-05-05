@@ -1,5 +1,5 @@
 {
-    "name": "missionx/laravel-better-http-fake",
+    "name": "missionx-co/laravel-better-http-fake",
     "version": "0.0.1",
     "description": "A package that provides improved helpers for faking Laravel HTTP client requests.",
     "keywords": [
