@@ -20,13 +20,29 @@ class LaravelBetterHttpFakeTest extends TestCase
         $client = Http::baseUrl('https://service.com');
 
         $client->shouldMakePostRequestTo('/instances')
-            ->withData(['key' => 'value'])
+            ->withData([
+                'key' => 'value',
+                'key2' => [
+                    'subkey' => 'subvalue'
+                ],
+                'key3' => ['subvalue', 'subvalue2', 'subvalue3']
+            ])
             ->withHeaders(['Header-Key' => 'Header-Value'])
             ->andRespondWith($response = [
                 'instance' => ['ip' => fake()->ipv4()]
             ]);
 
-        $res = $client->withHeader('Header-Key', 'Header-Value')->post('/instances', ['key' => 'value']);
+        $res = $client->withHeader('Header-Key', 'Header-Value')
+            ->post(
+                '/instances',
+                [
+                    'key' => 'value',
+                    'key2' => [
+                        'subkey' => 'subvalue'
+                    ],
+                    'key3' => ['subvalue', 'subvalue2', 'subvalue3']
+                ]
+            );
         $this->assertEquals($response, $res->json());
     }
 

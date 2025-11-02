@@ -2,11 +2,12 @@
 
 namespace MissionX\LaravelBetterHttpFake\Support;
 
-use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Client\ResponseSequence;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use MissionX\LaravelBetterHttpFake\LaravelBetterHttpFake;
 
 class PendingFakeRequest
@@ -74,7 +75,11 @@ class PendingFakeRequest
                 && $request->url() == $this->url;
 
             if (isset($this->data)) {
-                $sent = $sent && array_intersect($request->data(), $this->data) == $this->data;
+                $sent = $sent &&
+                    array_intersect(
+                        Arr::dot($request->data()),
+                        Arr::dot($this->data)
+                    ) == Arr::dot($this->data);
             }
 
             if (isset($this->headers)) {
